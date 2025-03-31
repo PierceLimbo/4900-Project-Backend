@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 {% load static %}
 
+<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +22,7 @@
             background-color: #4CAF50;
             border: none;
             padding: 15px 30px;
-            font-size: 18px;
+            font-size: 30px;
             margin-top: 40px;
             cursor: pointer;
             color: white;
@@ -37,9 +38,9 @@
     <h1>Co-OpCritics Backend</h1>
 
     <a href="/admin/">
-        <button class="admin-button">Go to Admin Panel</button>
+        <button class="admin-button admin-btn">Go to Admin Panel</button>
     </a>
-<div class="button-grid">
+<div class="button-container">
     <a href="/admin/games/game">
         <button class="icon-button games-btn">
             <img src="{% static 'images/games-gif.gif' %}" alt="Games" class="icon-img">
@@ -48,23 +49,33 @@
     </a>
 
     <a href="/admin/games/genre/">
-        <button class="icon-button genres-btn">Genres</button>
+        <button class="icon-button genres-btn">
+            <img src="{% static 'images/genregold.gif' %}" alt="Games" class="icon-img">
+            Genre</button>
     </a>
 
     <a href="/admin/games/review/">
-        <button class="icon-button reviews-btn">Reviews</button>
+        <button class="icon-button reviews-btn">
+            <img src="{% static 'images/reviews.gif' %}" alt="Games" class="icon-img">
+            Reviews</button>
     </a>
 
     <a href="/admin/games/usergame/">
-        <button class="icon-button usergames-btn">User Games</button>
+        <button class="icon-button usergames-btn">
+            <img src="{% static 'images/usergame.gif' %}" alt="Games" class="icon-img">
+            User Games</button>
     </a>
 
     <a href="/admin/games/user/">
-        <button class="icon-button users-btn">Users</button>
+        <button class="icon-button users-btn">
+            <img src="{% static 'images/user.gif' %}" alt="Games" class="icon-img">
+            Users</button>
     </a>
 
     <a href="/admin/auth/group/">
-        <button class="icon-button groups-btn">Groups</button>
+        <button class="icon-button groups-btn">
+            <img src="{% static 'images/groups.gif' %}" alt="Games" class="icon-img">
+            Groups</button>
     </a>
 </div>
 
@@ -80,12 +91,13 @@
     color: white;
     background-color: #333;
     display: flex;
+    font-size: 25px;
     align-items: center;
     gap: 10px;
     transition: background-color 0.3s ease;
     .icon-img {
-        width: 40px;
-        height: 40px;
+        width: 80px;
+        height: 100px;
         object-fit: contain;
     }
 }
@@ -94,11 +106,46 @@
 .games-btn {
     background-color: #FFD500;
 }
-
-
-.games-btn:hover {
-    background-color: #FFD500;
+.games-btn:hover{
+    background-color: #f4d115;
 }
+.genres-btn{
+    background-color: #ffffff;
+}
+.genres-btn:hover{
+    background-color: #cfcfcf;
+}
+.reviews-btn{
+    background-color: #000000;
+}
+.reviews-btn:hover{
+    background-color: #550000;
+}
+.usergames-btn{
+    background-color: #6dd4dd;
+}
+.usergames-btn:hover{
+    background-color: #3c8e95;
+}
+.users-btn{
+    background-color: #ffffff;
+}
+.users-btn:hover{
+    background-color: #c3c3c3;
+}
+.groups-btn{
+    background-color: #d38f42;
+}
+.groups-btn:hover{
+    background-color: #8e612e;
+}
+.admin-btn{
+    background-color: #23aa15;
+}
+.admin-btn:hover{
+    background-color: #0e5e06;
+}
+
 .button-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -107,6 +154,26 @@
     margin: 50px auto;
     padding: 20px;
     justify-items: center;
+}
+button {
+  color: white;
+  -webkit-text-stroke: 1px black;
+
+}
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+    padding: 50px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.button-container button {
+  flex: 0 0 calc(33.333% - 20px);
+  min-width: 100px;
+  padding: 10px;
 }
 
 </style>
