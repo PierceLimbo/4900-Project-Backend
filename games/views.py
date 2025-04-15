@@ -1,4 +1,16 @@
 from django.shortcuts import render
+from rest_framework.generics import ListAPIView
+from .models import Game, Review
+from .serializers import GameSerializer, ReviewSerializer
+
+
+
+class GameListView(ListAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+class ReviewListView(ListAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
 
 def backend_home(request):
     return render(request, 'backend_home.html')
@@ -22,3 +34,4 @@ def view_user_games(request):
 
 def view_users(request):
     return HttpResponse("Users Data Page")
+
