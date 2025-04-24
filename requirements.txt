@@ -11,3 +11,5 @@ pytz==2025.1
 six==1.17.0
 sqlparse==0.5.1
 tzdata==2024.2
+Pillow
+

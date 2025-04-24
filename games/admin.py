@@ -31,3 +31,6 @@ class ReviewAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'game__title', 'review_text')
     list_filter = ('rating', 'created_at')
     date_hierarchy = 'created_at'
+
+class GameAdmin(admin.ModelAdmin):
+    list_display = ('title', 'image')
