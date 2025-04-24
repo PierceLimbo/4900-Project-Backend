@@ -143,4 +143,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
+    "https://4900-project-frontend.vercel.app/"
 ]
