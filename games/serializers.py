@@ -4,6 +4,7 @@ from django.db.models import Avg
 
 class GameSerializer(serializers.ModelSerializer):
     average_rating = serializers.SerializerMethodField()
+    genre = serializers.StringRelatedField()
 
     class Meta:
         model = Game
