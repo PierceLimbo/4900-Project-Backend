@@ -94,12 +94,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
@@ -143,5 +137,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
-    "https://4900-project-frontend.vercel.app/"
+    "https://4900-project-frontend.vercel.app"
 ]

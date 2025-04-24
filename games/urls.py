@@ -3,7 +3,7 @@ from django.urls import path
 from .views import GameListView, ReviewListView
 from django.conf import settings
 from django.conf.urls.static import static
-
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     path('', views.backend_home, name='backend-home'),
     path('groups/', views.view_groups, name='view-groups'),
@@ -18,4 +18,8 @@ urlpatterns = [
     # working JSON API
     path('games/', GameListView.as_view(), name='api-games'),
     path('reviews/', ReviewListView.as_view(), name='api-reviews'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('register/', views.RegisterView.as_view(), name='auth_register'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
