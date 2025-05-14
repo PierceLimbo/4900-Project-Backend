@@ -1,10 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# In games/models.py
 class User(AbstractUser):
     email = models.EmailField(unique=True, max_length=100, blank=True, null=True)
-    password_hash = models.CharField(max_length=255)
+    password_hash = models.CharField(max_length=255)  # Add this line
     role = models.CharField(max_length=10, default='user')
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -16,6 +15,11 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def save(self, *args, **kwargs):
+        if self.password and not self.password_hash:
+            self.password_hash = self.password
+        super().save(*args, **kwargs)
 
 
 class Genre(models.Model):
@@ -50,7 +54,7 @@ class UserGame(models.Model):
     user_game_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_games')
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name='user_games')
-    status = models.CharField(max_length=10, null=True, blank=True)  # e.g., 'completed', 'playing', 'backlog'
+    status = models.CharField(max_length=10, null=True, blank=True)
     rating = models.IntegerField(null=True, blank=True)
     review = models.TextField(null=True, blank=True)
 
