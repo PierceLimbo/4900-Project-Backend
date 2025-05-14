@@ -14,7 +14,5 @@ urlpatterns = [
     settings.MEDIA_ROOT}), #serve media files when deployed
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root':
     settings.STATIC_ROOT}),
-    path('admin/', admin.site.urls),
-    path('api/', include('games.urls')),
 
 ]

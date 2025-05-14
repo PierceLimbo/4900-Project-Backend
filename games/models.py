@@ -4,7 +4,6 @@ from django.contrib.auth.models import AbstractUser
 # In games/models.py
 class User(AbstractUser):
     email = models.EmailField(unique=True, max_length=100, blank=True, null=True)
-    password_hash = models.CharField(max_length=255)
     role = models.CharField(max_length=10, default='user')
     created_at = models.DateTimeField(auto_now_add=True)
 
