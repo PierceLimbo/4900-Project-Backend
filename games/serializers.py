@@ -1,16 +1,17 @@
 from rest_framework import serializers
-from .models import Game, Review
 from django.db.models import Avg
-from django.contrib.auth.password_validation import validate_password
-from .models import User
+from .models import Game, Review, Genre, User
+
 
 class GameSerializer(serializers.ModelSerializer):
-    average_rating = serializers.SerializerMethodField()
-    genre = serializers.StringRelatedField()
+    average_rating = serializers.SerializerMethodField(read_only=True)
+    genre_name = serializers.CharField(source='genre.genre_name', read_only=True)
 
     class Meta:
         model = Game
-        fields = '__all__'  # or list fields explicitly and include 'average_rating'
+        fields = ['game_id', 'title', 'platform', 'release_date', 'publisher',
+                  'description', 'genre', 'genre_name', 'maturity_rating', 'image', 'average_rating']
+        read_only_fields = ['game_id']
 
     def get_average_rating(self, obj):
         avg = obj.reviews.aggregate(Avg('rating'))['rating__avg']
@@ -18,36 +19,41 @@ class GameSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField()
-    game = serializers.StringRelatedField()
+    username = serializers.CharField(source='user.username', read_only=True)
+    game_title = serializers.CharField(source='game.title', read_only=True)
 
     class Meta:
         model = Review
-        fields = ['review_id', 'user', 'game', 'rating', 'review_text', 'created_at']
+        fields = ['review_id', 'user', 'username', 'game', 'game_title', 'rating', 'review_text', 'created_at']
+        read_only_fields = ['review_id', 'user', 'username', 'game_title', 'created_at']
+
+
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ['genre_id', 'genre_name']
+
+
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+    password = serializers.CharField(write_only=True, required=True)
     password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
-        model = User  # Using the custom User model
-        fields = ['username', 'password', 'password2', 'email', 'role']
-        extra_kwargs = {
-            'email': {'required': True},
-            'role': {'required': False, 'default': 'user'},
-        }
+        model = User
+        fields = ['username', 'email', 'password', 'password2', 'role']
 
-    def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
-        return attrs
+    def validate(self, data):
+        if data['password'] != data['password2']:
+            raise serializers.ValidationError("Passwords don't match")
+        return data
 
     def create(self, validated_data):
-        validated_data.pop('password2')
-        user = User.objects.create(
+        user = User(
             username=validated_data['username'],
             email=validated_data['email'],
             role=validated_data.get('role', 'user')
         )
         user.set_password(validated_data['password'])
         user.save()
+
         return user
