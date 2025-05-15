@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, DestroyAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, DestroyAPIView, UpdateAPIView
 from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated
@@ -8,7 +8,21 @@ from .models import Game, Review, User, Genre
 from .serializers import GameSerializer, ReviewSerializer, RegisterSerializer, GenreSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from django.http import HttpResponse
+from rest_framework.exceptions import PermissionDenied
 
+
+class ReviewUpdateView(UpdateAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_field = 'review_id'
+    lookup_url_kwarg = 'review_id'
+
+    def perform_update(self, serializer):
+        review = self.get_object()
+        if review.user != self.request.user:
+            raise PermissionDenied("You cannot edit other users' reviews.")
+        serializer.save()
 
 class RegisterView(CreateAPIView):
     queryset = User.objects.all()
